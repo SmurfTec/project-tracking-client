@@ -13,7 +13,6 @@ pipeline {
                 dir('/home/projects/nextprojects/project-tracking-client') {
                     sh "npm install --legacy-peer-deps"
                     sh "npm run build"
-                    sh "pm2 restart 1"
                 }
             }
         }
