@@ -10,7 +10,9 @@ import {
   CircularProgress,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  StepConnector,
+  stepConnectorClasses
 } from '@mui/material';
 import { styled } from '@mui/system';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
@@ -23,7 +25,8 @@ import HomeRepairServiceIcon from '@mui/icons-material/HomeRepairService';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import axios from 'axios';
 
-const api_url = 'http://localhost:5001';
+// const api_url = 'http://localhost:5001';
+const api_url = 'http://15.237.179.155:3003';
 
 const Root = styled(Box)({
   padding: '16px',
@@ -106,6 +109,32 @@ const OrderTracking = () => {
   const [loading, setLoading] = useState(false);
   const [Project, setProject] = useState();
 
+  const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 22,
+  },
+  [`&.${stepConnectorClasses.active}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundImage:
+        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+    },
+  },
+  [`&.${stepConnectorClasses.completed}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      backgroundImage:
+        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+    },
+  },
+  [`& .${stepConnectorClasses.line}`]: {
+    height: 3,
+    border: 0,
+    backgroundColor:
+      theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+    borderRadius: 1,
+  },
+}));
+
+
   const handleInputChange = e => {
     setOrderNumber(e.target.value);
   };
@@ -147,8 +176,24 @@ const OrderTracking = () => {
       ) : (
         Project && (
           <StyledPaper>
+            <Box sx={{
+              backgroundColor: '#ebebeb',
+              padding: '20px',
+              height: '150px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              gap: '15px',
+              marginBottom: '3rem',
+              boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+              borderRadius: '10px'
+            }}>
+                <Typography variant='h5'>{Project.status} </Typography>
+                <Typography variant='h6'>{Project.milestone} </Typography>
+
+            </Box>
             <Typography variant='h6'>Order Status: #{orderNumber}</Typography>
-            <Stepper activeStep={orderStatus} alternativeLabel>
+            <Stepper activeStep={orderStatus} alternativeLabel connector={<ColorlibConnector />}>
               {steps.map((step, index) => (
                 <Step key={step.label}>
                   <StepLabel
@@ -159,7 +204,7 @@ const OrderTracking = () => {
                             step.label === Project.milestone
                               ? '#4caf50'
                               : index < orderStatus
-                              ? '#3f51b5'
+                              ? '#7008ff'
                               : '#757575',
                           }
                       })
@@ -168,8 +213,11 @@ const OrderTracking = () => {
                    <b style={{color : '#000'}}>{step.label}</b>
                     <List>
                       {step.statuses.map((status, statusIndex) => (
-                        <StyledListItem key={status} sx={{ color: status === Project.status && step.label === Project.milestone ? '#4caf50' : 'inherit' }}>
-                          <ListItemText sx={{color : '#000'}} primary={status} />
+                        <StyledListItem key={status} 
+                        >
+                          <ListItemText 
+                          sx={{ fontWeight: '800', color: status === Project.status && step.label === Project.milestone ? '#4caf50' : 'inherit' }}
+                          primary={status} />
                         </StyledListItem>
                       ))}
                     </List>
