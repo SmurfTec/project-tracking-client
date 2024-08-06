@@ -92,8 +92,6 @@ function App() {
       }
     },
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor:
-        theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
       borderTopWidth: 3,
       borderRadius: 1,
       borderLeftWidth: 3,
