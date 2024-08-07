@@ -49,22 +49,6 @@ const steps = [
   { label: 'Project Completed', steps: ['Completed'] }
 ];
 
-const TimelineItem = ({ date, description }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      mb: 2
-    }}
-  >
-    <Typography variant='body2' color='textSecondary'>
-      {date}
-    </Typography>
-    <Typography variant='body1'>{description}</Typography>
-  </Box>
-);
-
 function App() {
   const [searchbar, setSearchbar] = useState('');
   const [project, setProject] = useState();
@@ -165,6 +149,15 @@ function App() {
     return (completedSteps / totalSteps) * 100;
   };
 
+  const isStepCompleted = (idx, status) => {
+    console.log('status', status);
+    const currentStep = steps.findIndex(s => s.label === status);
+    // if current step idx is greater than the index of the current step
+    // then return true
+    console.log('currentStep', currentStep);
+    return idx < currentStep;
+  };
+
   return (
     <Container
       sx={{
@@ -259,7 +252,7 @@ function App() {
               />
             </Box>
             <Box sx={{ mb: 4, display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-              {steps.map(step => (
+              {steps.map((step, idx) => (
                 <Box
                   sx={{
                     display: 'flex',
@@ -275,7 +268,9 @@ function App() {
                     border:
                       step.label === project.milestone
                         ? '1px solid #9747FF'
-                        : '1px solid #28DD88',
+                        : isStepCompleted(idx, project.milestone)
+                        ? '1px solid #28DD88'
+                        : '1px solid #a09da7',
                     gap: '10px',
                     flexGrow: 1
                   }}
@@ -284,7 +279,11 @@ function App() {
                     color='primary'
                     sx={{
                       color:
-                        step.label === project.milestone ? '#9747FF' : '#28DD88'
+                        step.label === project.milestone
+                          ? '#9747FF'
+                          : isStepCompleted(idx, project.milestone)
+                          ? '#28DD88'
+                          : '#a09da7'
                     }}
                   />
                   <Typography textAlign={'center'} variant='body1'>
