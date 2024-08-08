@@ -29,24 +29,27 @@ import {
   Timelapse
 } from '@mui/icons-material';
 
-// const api_url = 'http://localhost:5001';
-const api_url = 'http://15.237.179.155:3003';
+const api_url = 'http://localhost:5001';
+// const api_url = 'http://15.237.179.155:3003';
 
 const steps = [
-  { label: 'Offer Accepted', steps: ['Accepted'] },
-  { label: 'Final Measurement', steps: ['Scheduled', 'Completed', 'Pending'] },
+  { label: 'Offre acceptée', steps: ['Accepted'] },
   {
-    label: 'Design and Validation',
+    label: 'Prise de mesure définitive',
+    steps: ['Scheduled', 'Completed', 'Pending']
+  },
+  {
+    label: 'Conception et Validation',
     steps: ['In Progress', 'Design Completed']
   },
   {
-    label: 'Production of Smart Films',
+    label: 'Production des films Opaq',
     steps: ['Scheduled', 'Pending', 'In Progress']
   },
-  { label: 'Quality Control', steps: ['Pending', 'Approved'] },
-  { label: 'Site Preparation', steps: ['Completed'] },
+  { label: 'Contrôle Qualité', steps: ['Pending', 'Approved'] },
+  { label: 'Préparation du chantier', steps: ['Completed'] },
   { label: 'Installation', steps: ['Scheduled', 'Pending', 'In Progress'] },
-  { label: 'Project Completed', steps: ['Completed'] }
+  { label: 'Projet terminé', steps: ['Completed'] }
 ];
 
 function App() {
@@ -158,6 +161,11 @@ function App() {
     return idx < currentStep;
   };
 
+  const nextMilestone = () => {
+    const currentStep = steps.findIndex(s => s.label === project.milestone);
+    return steps[currentStep + 1] ? steps[currentStep + 1].label : '-';
+  };
+
   return (
     <Container
       sx={{
@@ -178,7 +186,7 @@ function App() {
         <form onSubmit={searchProject} id='search-form'>
           <TextField
             variant='outlined'
-            placeholder='Search'
+            placeholder={`Saisissez votre numéro d'offre (5874)`}
             fullWidth
             size='small'
             sx={{ mr: 2, borderRadius: '15px' }}
@@ -199,17 +207,20 @@ function App() {
           color='primary'
           type='submit'
           form='search-form'
+          size='large'
           sx={{
             marginLeft: '2rem',
-            height: '40px',
             textTransform: 'none',
+            paddingBlock: '8px !important',
+            height: 'unset',
+            width: 250,
             backgroundColor: '#9747FF',
             '&:hover': {
               backgroundColor: '#af78f7'
             }
           }}
         >
-          Search
+          Suivre mon projet
         </Button>
       </Box>
       {loading ? (
@@ -224,7 +235,7 @@ function App() {
         </Box>
       ) : notFound ? (
         <Box>
-          <Typography variant='h6'>Project not found!</Typography>
+          <Typography variant='h6'>Projet introuvable!</Typography>
         </Box>
       ) : (
         project && (
@@ -241,7 +252,7 @@ function App() {
               <Box>
                 <Typography variant='h4'>{project.name}</Typography>
                 <Typography variant='subtitle1'>
-                  Order ID: {project.number}
+                  Numéro de l'offre :{project.number}
                 </Typography>
               </Box>
               <Chip
@@ -267,7 +278,9 @@ function App() {
                     backgroundColor: '#fbfbfb',
                     border:
                       step.label === project.milestone
-                        ? '1px solid #9747FF'
+                        ? project.milestone === 'Project Completed'
+                          ? '1px solid  #28DD88'
+                          : '1px solid #9747FF'
                         : isStepCompleted(idx, project.milestone)
                         ? '1px solid #28DD88'
                         : '1px solid #a09da7',
@@ -280,7 +293,9 @@ function App() {
                     sx={{
                       color:
                         step.label === project.milestone
-                          ? '#9747FF'
+                          ? project.milestone === 'Project Completed'
+                            ? '#28DD88'
+                            : '#9747FF'
                           : isStepCompleted(idx, project.milestone)
                           ? '#28DD88'
                           : '#a09da7'
@@ -292,6 +307,35 @@ function App() {
                 </Box>
               ))}
             </Box>
+            {project.milestone === 'Projet terminé' && (
+              <Box
+                sx={{ display: 'flex', justifyContent: 'flex-start', mb: 4 }}
+              >
+                <Button
+                  variant='contained'
+                  color='primary'
+                  size='large'
+                  onClick={() => {
+                    window.open(
+                      'https://calendly.com/admin-opaq/prise-de-mesure',
+                      '_blank'
+                    );
+                  }}
+                  sx={{
+                    textTransform: 'none',
+                    paddingBlock: '8px !important',
+                    height: 'unset',
+                    width: 250,
+                    backgroundColor: '#9747FF',
+                    '&:hover': {
+                      backgroundColor: '#af78f7'
+                    }
+                  }}
+                >
+                  Prendre rendez-vous
+                </Button>
+              </Box>
+            )}
             <Grid container>
               <Grid item xs={12}>
                 <Grid container spacing={2}>
@@ -409,7 +453,7 @@ function App() {
                       </Box>
                       <Box>
                         <Typography variant='subtitle1'>
-                          Estimated Date
+                          Date de la dernière mise à jour
                         </Typography>
                         <Typography variant='subtitle2' fontWeight={'bold'}>
                           {new Date(project.duedate).toDateString()}
@@ -459,10 +503,10 @@ function App() {
 
                       <Box>
                         <Typography variant='subtitle1'>
-                          Next Milestone
+                          Prochain statut
                         </Typography>
                         <Typography variant='subtitle2' fontWeight={'bold'}>
-                          Project Completion
+                          {nextMilestone()}
                         </Typography>
                       </Box>
                     </Box>
@@ -482,7 +526,7 @@ function App() {
                     }}
                   >
                     <Typography variant='h6' fontWeight={'bold'}>
-                      Timeline
+                      Historique
                     </Typography>
                     <Stepper
                       activeStep={0}
