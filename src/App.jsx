@@ -198,7 +198,7 @@ function App() {
               mb: 4,
               flexWrap: 'wrap',
               gap: '20px',
-              minHeight: '60vh'
+              minHeight: '47vh'
               // paddingTop: '15%'
             }}
           >
