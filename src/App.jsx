@@ -29,8 +29,8 @@ import {
   Timelapse
 } from '@mui/icons-material';
 
-const api_url = 'http://localhost:5001';
-// const api_url = 'http://15.237.179.155:3003';
+// const api_url = 'http://localhost:5001';
+const api_url = 'http://15.237.179.155:3003';
 
 const steps = [
   { label: 'Offre acceptée', steps: ['Accepted'] },
