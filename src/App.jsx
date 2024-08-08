@@ -214,7 +214,7 @@ function App() {
             paddingBlock: '8px !important',
             height: 'unset',
             width: 250,
-            backgroundColor: '#9747FF',
+            backgroundColor: '#557EFF',
             '&:hover': {
               backgroundColor: '#af78f7'
             }
@@ -228,7 +228,7 @@ function App() {
           <CircularProgress
             size={44}
             sx={{
-              color: '#9747FF',
+              color: '#557EFF',
               marginLeft: '50%'
             }}
           />
@@ -280,7 +280,7 @@ function App() {
                       step.label === project.milestone
                         ? project.milestone === 'Project Completed'
                           ? '1px solid  #28DD88'
-                          : '1px solid #9747FF'
+                          : '1px solid #557EFF'
                         : isStepCompleted(idx, project.milestone)
                         ? '1px solid #28DD88'
                         : '1px solid #a09da7',
@@ -295,7 +295,7 @@ function App() {
                         step.label === project.milestone
                           ? project.milestone === 'Project Completed'
                             ? '#28DD88'
-                            : '#9747FF'
+                            : '#557EFF'
                           : isStepCompleted(idx, project.milestone)
                           ? '#28DD88'
                           : '#a09da7'
@@ -307,7 +307,7 @@ function App() {
                 </Box>
               ))}
             </Box>
-            {project.milestone === 'Projet terminé' && (
+            {project.milestone === 'Prise de mesure définitive' && (
               <Box
                 sx={{ display: 'flex', justifyContent: 'flex-start', mb: 4 }}
               >
@@ -326,9 +326,9 @@ function App() {
                     paddingBlock: '8px !important',
                     height: 'unset',
                     width: 250,
-                    backgroundColor: '#9747FF',
+                    backgroundColor: '#557EFF',
                     '&:hover': {
-                      backgroundColor: '#af78f7'
+                      backgroundColor: '#557EFF'
                     }
                   }}
                 >
@@ -373,11 +373,11 @@ function App() {
                             />
                             <path
                               d='M23.4239 30.5H28.5439V24.5H32.9919C32.8944 22.6323 32.2176 20.8413 31.0556 19.3758C29.8936 17.9103 28.3041 16.843 26.5078 16.3221C24.7115 15.8012 22.7976 15.8526 21.0319 16.4692C19.2662 17.0858 17.7363 18.2369 16.6547 19.7627C15.573 21.2884 14.9934 23.1132 14.9962 24.9835C14.9991 26.8537 15.5842 28.6767 16.6704 30.1992C17.7567 31.7217 19.29 32.8682 21.0576 33.4794C22.8252 34.0907 24.7392 34.1363 26.5339 33.61L23.4239 30.5ZM21.5159 24.974C21.5159 24.4795 21.6626 23.9962 21.9373 23.5851C22.212 23.174 22.6024 22.8535 23.0592 22.6643C23.5161 22.4751 24.0187 22.4256 24.5037 22.522C24.9886 22.6185 25.4341 22.8566 25.7837 23.2062C26.1333 23.5559 26.3714 24.0013 26.4679 24.4863C26.5644 24.9712 26.5149 25.4739 26.3256 25.9307C26.1364 26.3875 25.816 26.778 25.4049 27.0527C24.9938 27.3274 24.5104 27.474 24.0159 27.474C23.3529 27.474 22.717 27.2106 22.2482 26.7418C21.7793 26.2729 21.5159 25.637 21.5159 24.974Z'
-                              fill='#9747FF'
+                              fill='#557EFF'
                             />
                             <path
                               d='M35.045 32H32.045V26H30.045V32H27.045L31.045 36L35.045 32Z'
-                              fill='#9747FF'
+                              fill='#557EFF'
                             />
                           </svg>
 
@@ -387,8 +387,9 @@ function App() {
                             color='secondary'
                             sx={{
                               ml: 2,
-                              color: '#9747FF',
-                              backgroundColor: '#F1e6ff'
+                              color: '#557EFF',
+                              backgroundColor: '#FFF',
+                              borderColor: '#557EFF'
                             }}
                           />
                         </Box>
@@ -447,7 +448,7 @@ function App() {
                           />
                           <path
                             d='M25 36C23.6167 36 22.3167 35.7373 21.1 35.212C19.8833 34.6867 18.825 33.9743 17.925 33.075C17.025 32.1757 16.3127 31.1173 15.788 29.9C15.2633 28.6827 15.0007 27.3827 15 26C15 24.6 15.2583 23.296 15.775 22.088C16.2917 20.88 17 19.8173 17.9 18.9L25 26V16C26.3833 16 27.6833 16.2627 28.9 16.788C30.1167 17.3133 31.175 18.0257 32.075 18.925C32.975 19.8243 33.6877 20.8827 34.213 22.1C34.7383 23.3173 35.0007 24.6173 35 26C34.9993 27.3827 34.7367 28.6827 34.212 29.9C33.6873 31.1173 32.975 32.1757 32.075 33.075C31.175 33.9743 30.1167 34.687 28.9 35.213C27.6833 35.739 26.3833 36.0013 25 36Z'
-                            fill='#9747FF'
+                            fill='#557EFF'
                           />
                         </svg>
                       </Box>
@@ -486,7 +487,7 @@ function App() {
                         <g clip-path='url(#clip0_7_101)'>
                           <path
                             d='M26 34H26.09C26.1977 34.7071 26.4422 35.3865 26.81 36H22C22 35.4696 22.2107 34.9609 22.5858 34.5858C22.9609 34.2107 23.4696 34 24 34V26H16.5L19 23.5L16.5 21H24V17L25 16L26 17V21H31L33.5 23.5L31 26H26M31 29V32H28V34H31V37H33V34H36V32H33V29H31Z'
-                            fill='#9747FF'
+                            fill='#557EFF'
                           />
                         </g>
                         <defs>
