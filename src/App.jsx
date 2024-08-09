@@ -89,11 +89,12 @@ function App() {
       }
     },
     [`& .${stepConnectorClasses.line}`]: {
-      height: 3,
+      height: down_md ? '30px' : 3,
       border: 0,
       backgroundColor:
         theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
-      borderRadius: 1
+      borderRadius: 1,
+      width: down_md && '5px'
     }
   }));
 
