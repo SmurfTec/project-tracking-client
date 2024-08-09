@@ -19,19 +19,26 @@ import {
   stepConnectorClasses,
   styled,
   useMediaQuery,
-  useTheme
+  useTheme,
+  darken
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 import {
   AddTask,
+  Apps,
   Check,
   CheckCircle,
   DownloadForOffline,
-  Timelapse
+  GroupAdd,
+  Lock,
+  Settings,
+  Timelapse,
+  VideoLabel
 } from '@mui/icons-material';
 import logo from './assets/opaqLogo.png';
 import { toast } from 'react-toastify';
+import { blue, green, grey } from '@mui/material/colors';
 
 // const api_url = 'http://localhost:5001';
 const api_url = 'http://15.237.179.155:3003';
@@ -63,6 +70,33 @@ function App() {
   const [notFound, setNotFound] = useState(false);
   const [initialSearch, setInitialSearch] = useState(true);
 
+  const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+    [`&.${stepConnectorClasses.alternativeLabel}`]: {
+      top: 22
+    },
+    [`&.${stepConnectorClasses.active}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        // backgroundImage:
+        backgroundColor: '#28DD88'
+        //   'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)'
+      }
+    },
+    [`&.${stepConnectorClasses.completed}`]: {
+      [`& .${stepConnectorClasses.line}`]: {
+        backgroundColor: '#28DD88'
+        // backgroundImage:
+        //   'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)'
+      }
+    },
+    [`& .${stepConnectorClasses.line}`]: {
+      height: 3,
+      border: 0,
+      backgroundColor:
+        theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
+      borderRadius: 1
+    }
+  }));
+
   const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.root}`]: {
       marginLeft: 0
@@ -91,6 +125,134 @@ function App() {
       marginLeft: 0
     }
   }));
+
+  const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
+    backgroundColor:
+      theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
+    zIndex: 1,
+    color: '#fff',
+    width: 40,
+    height: 40,
+    display: 'flex',
+    borderRadius: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...(ownerState.active && {
+      backgroundColor: blue[600]
+      // backgroundImage:
+      //   'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+      // boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)'
+    }),
+    ...(ownerState.completed && {
+      backgroundColor: '#28DD88'
+    })
+  }));
+
+  function ColorlibStepIcon(props) {
+    const { active, completed, className } = props;
+    console.log('props', props);
+
+    const icons = {
+      1: <CheckCircle />,
+      2: <Lock />,
+      3: <Apps />,
+      4: <Apps />,
+      5: <Apps />,
+      6: <Apps />,
+      7: <Apps />,
+      8: <Apps />
+    };
+
+    return (
+      <ColorlibStepIconRoot
+        ownerState={{ completed, active }}
+        className={className}
+      >
+        {getIconOfStep(props.icon - 1)}
+      </ColorlibStepIconRoot>
+    );
+  }
+
+  const getIconOfStep = index => {
+    // if step is completed, then Completed.
+    // if step is active, then Active
+    // else, return Pending
+    const currentIndex = +steps.findIndex(s => s.label === project.milestone);
+    console.log('index', index);
+    console.log('currentIndex', currentIndex);
+    if (index < currentIndex) {
+      console.log('index < currentIndex');
+      return (
+        <CheckCircle
+          sx={{
+            height: '20px',
+            width: '20px'
+          }}
+        />
+      );
+    } else if (index === currentIndex) {
+      console.log('index === currentIndex');
+      return (
+        <Lock
+          sx={{
+            height: '20px',
+            width: '20px'
+          }}
+        />
+      );
+    } else {
+      console.log('else');
+      return (
+        <Apps
+          sx={{
+            height: '20px',
+            width: '20px'
+          }}
+        />
+      );
+    }
+  };
+
+  const getStepLabelBg = index => {
+    // if step is completed, then Completed.
+    // if step is active, then Active
+    // else, return Pending
+    const currentIndex = +steps.findIndex(s => s.label === project.milestone);
+    if (index < currentIndex) {
+      return '#28DD88';
+    } else if (index === currentIndex) {
+      return blue[600];
+    } else {
+      return grey[400];
+    }
+  };
+  const getStepLabelColor = index => {
+    // if step is completed, then Completed.
+    // if step is active, then Active
+    // else, return Pending
+    const currentIndex = +steps.findIndex(s => s.label === project.milestone);
+    if (index < currentIndex) {
+      return '#0d5634';
+    } else if (index === currentIndex) {
+      return '#fff';
+    } else {
+      return grey[800];
+    }
+  };
+
+  const getStepLabel = index => {
+    // if step is completed, then Completed.
+    // if step is active, then Active
+    // else, return Pending
+    const currentIndex = +steps.findIndex(s => s.label === project.milestone);
+    if (index < currentIndex) {
+      return 'Completed';
+    } else if (index === currentIndex) {
+      return 'In Progress';
+    } else {
+      return 'Pending';
+    }
+  };
 
   const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
     color: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#28DD88',
@@ -163,11 +325,9 @@ function App() {
   };
 
   const isStepCompleted = (idx, status) => {
-    console.log('status', status);
     const currentStep = steps.findIndex(s => s.label === status);
     // if current step idx is greater than the index of the current step
     // then return true
-    console.log('currentStep', currentStep);
     return idx < currentStep;
   };
 
@@ -178,7 +338,7 @@ function App() {
   const theme = useTheme();
   const up_sm = useMediaQuery(theme.breakpoints.up('sm'));
   const down_sm = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const down_md = useMediaQuery(theme.breakpoints.down('md'));
   return (
     <>
       {initialSearch ? (
@@ -377,7 +537,65 @@ function App() {
                     label={project.status}
                   />
                 </Box>
-                <Box
+                <Stepper
+                  activeStep={steps.findIndex(
+                    s => s.label === project.milestone
+                  )}
+                  orientation={down_md ? 'vertical' : 'horizontal'}
+                  connector={<ColorlibConnector />}
+                  sx={{
+                    mb: 4,
+                    backgroundColor: '#fbfbfb',
+                    padding: '1rem',
+                    // [`&.MuiStepper-root`]: {
+                    //   flexWrap: 'wrap',
+                    //   gap: 0,
+                    //   rowGap: 4
+                    // },
+                    // [`& .MuiStep-root`]: {
+                    //   flexBasis: '11%'
+                    // },
+                    // [`& .MuiStepConnector-root`]: {
+                    //   flexBasis: '11%'
+                    // },
+                    [`& .MuiStepLabel-label`]: {
+                      fontWeight: '500',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      gap: '10px'
+                    },
+                    [`& .MuiStepLabel-root`]: {
+                      flexDirection: 'column',
+                      gap: '10px',
+                      alignItems: 'flex-start'
+                    }
+                  }}
+                >
+                  {steps.map((item, index) => (
+                    <Step key={index}>
+                      <StepLabel
+                        StepIconComponent={ColorlibStepIcon}
+                        sx={{
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        <Typography variant='subitle2'>
+                          Step {index + 1}
+                        </Typography>
+                        <Typography variant='body1'>{item.label}</Typography>
+                        <Chip
+                          label={getStepLabel(index)}
+                          sx={{
+                            backgroundColor: getStepLabelBg(index),
+                            color: getStepLabelColor(index)
+                          }}
+                        />
+                      </StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+                {/* <Box
                   sx={{ mb: 4, display: 'flex', gap: '20px', flexWrap: 'wrap' }}
                 >
                   {steps.map((step, idx) => (
@@ -423,7 +641,7 @@ function App() {
                       </Typography>
                     </Box>
                   ))}
-                </Box>
+                </Box> */}
                 {project.milestone === 'Prise de mesure définitive' && (
                   <Box
                     sx={{
@@ -524,7 +742,7 @@ function App() {
                             value={getStepValue()}
                             sx={{
                               '&.MuiLinearProgress-root': {
-                                backgroundColor: '#F1e6ff',
+                                backgroundColor: blue[100],
                                 height: '20px',
                                 borderRadius: '20px',
                                 '& .MuiLinearProgress-bar': {
