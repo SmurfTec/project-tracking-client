@@ -41,7 +41,7 @@ import { toast } from 'react-toastify';
 import { blue, green, grey } from '@mui/material/colors';
 
 // const api_url = 'http://localhost:5001';
-const api_url = 'http://15.237.179.155:3003';
+const api_url = 'https://api.projet-opaq.com';
 
 const steps = [
   { label: 'Offre acceptée', steps: ['Acceptée'] },
