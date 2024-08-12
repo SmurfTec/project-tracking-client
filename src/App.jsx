@@ -81,7 +81,7 @@ function App() {
       backgroundColor:
         theme.palette.mode === 'dark' ? theme.palette.grey[800] : '#eaeaf0',
       borderRadius: 1,
-      width: down_md && '5px'
+      width: down_md && '2px'
     }
   }));
 
