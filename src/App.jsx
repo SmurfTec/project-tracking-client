@@ -591,7 +591,12 @@ function App() {
                             gap: '10px'
                           }}
                         >
-                          <Typography variant='subitle2'>
+                          <Typography
+                            variant='subitle2'
+                            sx={{
+                              fontSize: '12px'
+                            }}
+                          >
                             Étape {index + 1}
                           </Typography>
                           <Typography variant='body1' fontWeight={'bold'}>
