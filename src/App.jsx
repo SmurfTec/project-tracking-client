@@ -325,6 +325,7 @@ function App() {
   };
   const theme = useTheme();
   const up_sm = useMediaQuery(theme.breakpoints.up('sm'));
+  const up_md = useMediaQuery(theme.breakpoints.up('md'));
   const down_sm = useMediaQuery(theme.breakpoints.down('sm'));
   const down_md = useMediaQuery(theme.breakpoints.down('md'));
   return (
@@ -547,16 +548,17 @@ function App() {
                     //   flexBasis: '11%'
                     // },
                     [`& .MuiStepLabel-label`]: {
-                      fontWeight: '500',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                      gap: '10px'
+                      // fontWeight: '500',
+                      // display: 'flex',
+                      // flexDirection: 'column',
+                      // alignItems: 'flex-start',
+                      // gap: '10px'
                     },
                     [`& .MuiStepLabel-root`]: {
                       flexDirection: 'column',
                       gap: '10px',
-                      alignItems: 'flex-start'
+                      alignItems: 'flex-start',
+                      position: 'relative'
                     }
                   }}
                 >
@@ -568,54 +570,78 @@ function App() {
                           fontWeight: 'bold'
                         }}
                       >
-                        <Typography variant='subitle2'>
-                          Étape {index + 1}
-                        </Typography>
-                        <Typography variant='body1' fontWeight={'bold'}>
-                          {item.label}
-                        </Typography>
-                        <Chip
-                          label={getStepLabel(index)}
+                        {down_md && (
+                          <Chip
+                            label={getStepLabel(index)}
+                            sx={{
+                              backgroundColor: getStepLabelBg(index),
+                              color: getStepLabelColor(index),
+                              position: 'absolute',
+                              top: '0.5rem',
+                              right: '1rem'
+                            }}
+                          />
+                        )}
+                        <Box
                           sx={{
-                            backgroundColor: getStepLabelBg(index),
-                            color: getStepLabelColor(index)
+                            fontWeight: '500',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                            gap: '10px'
                           }}
-                        />
-                        {project.milestone === 'Prise de mesure définitive' &&
-                          index === 1 && (
-                            <Box
+                        >
+                          <Typography variant='subitle2'>
+                            Étape {index + 1}
+                          </Typography>
+                          <Typography variant='body1' fontWeight={'bold'}>
+                            {item.label}
+                          </Typography>
+                          {up_md && (
+                            <Chip
+                              label={getStepLabel(index)}
                               sx={{
-                                display: 'flex',
-                                justifyContent: 'flex-start',
-                                mb: 4
+                                backgroundColor: getStepLabelBg(index),
+                                color: getStepLabelColor(index)
                               }}
-                            >
-                              <Button
-                                variant='contained'
-                                color='primary'
-                                size='large'
-                                onClick={() => {
-                                  window.open(
-                                    'https://calendly.com/admin-opaq/prise-de-mesure',
-                                    '_blank'
-                                  );
-                                }}
+                            />
+                          )}
+                          {project.milestone === 'Prise de mesure définitive' &&
+                            index === 1 && (
+                              <Box
                                 sx={{
-                                  textTransform: 'none',
-                                  paddingBlock: '8px !important',
-                                  height: 'unset',
-                                  fontSize: '13px',
-                                  width: '175px',
-                                  backgroundColor: '#617dff',
-                                  '&:hover': {
-                                    backgroundColor: '#617dff'
-                                  }
+                                  display: 'flex',
+                                  justifyContent: 'flex-start',
+                                  mb: 4
                                 }}
                               >
-                                Prendre rendez-vous
-                              </Button>
-                            </Box>
-                          )}
+                                <Button
+                                  variant='contained'
+                                  color='primary'
+                                  size='large'
+                                  onClick={() => {
+                                    window.open(
+                                      'https://calendly.com/admin-opaq/prise-de-mesure',
+                                      '_blank'
+                                    );
+                                  }}
+                                  sx={{
+                                    textTransform: 'none',
+                                    paddingBlock: '8px !important',
+                                    height: 'unset',
+                                    fontSize: '13px',
+                                    width: '175px',
+                                    backgroundColor: '#617dff',
+                                    '&:hover': {
+                                      backgroundColor: '#617dff'
+                                    }
+                                  }}
+                                >
+                                  Prendre rendez-vous
+                                </Button>
+                              </Box>
+                            )}
+                        </Box>
                       </StepLabel>
                     </Step>
                   ))}
