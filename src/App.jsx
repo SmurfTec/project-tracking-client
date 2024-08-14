@@ -516,7 +516,7 @@ function App() {
                   <Box>
                     <Typography variant='h4'>{project.name}</Typography>
                     <Typography variant='subtitle1'>
-                      Numéro du devis :{project.number}
+                      Numéro du devis : {project.number}
                     </Typography>
                   </Box>
                   <Chip
