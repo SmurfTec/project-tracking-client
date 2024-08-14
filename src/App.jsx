@@ -64,13 +64,13 @@ function App() {
     [`&.${stepConnectorClasses.active}`]: {
       [`& .${stepConnectorClasses.line}`]: {
         // backgroundImage:
-        backgroundColor: '#28DD88'
+        backgroundColor: '#5bc462'
         //   'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)'
       }
     },
     [`&.${stepConnectorClasses.completed}`]: {
       [`& .${stepConnectorClasses.line}`]: {
-        backgroundColor: '#28DD88'
+        backgroundColor: '#5bc462'
         // backgroundImage:
         //   'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)'
       }
@@ -132,7 +132,7 @@ function App() {
       // boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)'
     }),
     ...(ownerState.completed && {
-      backgroundColor: '#28DD88'
+      backgroundColor: '#5bc462'
     })
   }));
 
@@ -207,9 +207,9 @@ function App() {
     // else, return Pending
     const currentIndex = +steps.findIndex(s => s.label === project.milestone);
     if (index < currentIndex) {
-      return '#28DD88';
+      return '#5bc462';
     } else if (index === currentIndex) {
-      return '#617dff';
+      return '##5bc462';
     } else {
       return grey[400];
     }
@@ -234,16 +234,16 @@ function App() {
     // else, return Pending
     const currentIndex = +steps.findIndex(s => s.label === project.milestone);
     if (index < currentIndex) {
-      return 'Completed';
+      return 'Effectué';
     } else if (index === currentIndex) {
-      return 'In Progress';
+      return 'Planifié';
     } else {
-      return 'Pending';
+      return 'En Attente';
     }
   };
 
   const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
-    color: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#28DD88',
+    color: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#5bc462',
     display: 'flex',
     height: 22,
     alignItems: 'center',
@@ -575,7 +575,8 @@ function App() {
                             label={getStepLabel(index)}
                             sx={{
                               backgroundColor: getStepLabelBg(index),
-                              color: getStepLabelColor(index),
+                              // color: getStepLabelColor(index),
+                              color: '#fff',
                               position: 'absolute',
                               top: '0.5rem',
                               right: '1rem'
@@ -607,7 +608,7 @@ function App() {
                               label={getStepLabel(index)}
                               sx={{
                                 backgroundColor: getStepLabelBg(index),
-                                color: getStepLabelColor(index)
+                                color: '#fff'
                               }}
                             />
                           )}
@@ -670,10 +671,10 @@ function App() {
                         border:
                           step.label === project.milestone
                             ? project.milestone === 'Projet terminé'
-                              ? '1px solid  #28DD88'
+                              ? '1px solid  #5bc462'
                               : '1px solid #617dff'
                             : isStepCompleted(idx, project.milestone)
-                            ? '1px solid #28DD88'
+                            ? '1px solid #5bc462'
                             : '1px solid #a09da7',
                         gap: '10px',
                         flexGrow: 1
@@ -685,10 +686,10 @@ function App() {
                           color:
                             step.label === project.milestone
                               ? project.milestone === 'Projet terminé'
-                                ? '#28DD88'
+                                ? '#5bc462'
                                 : '#617dff'
                               : isStepCompleted(idx, project.milestone)
-                              ? '#28DD88'
+                              ? '#5bc462'
                               : '#a09da7'
                         }}
                       />
@@ -770,7 +771,7 @@ function App() {
                                 height: '20px',
                                 borderRadius: '20px',
                                 '& .MuiLinearProgress-bar': {
-                                  backgroundColor: '#28DD88'
+                                  backgroundColor: '#5bc462'
                                 }
                               }
                             }}
