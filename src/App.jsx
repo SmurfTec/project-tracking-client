@@ -209,7 +209,7 @@ function App() {
     if (index < currentIndex) {
       return '#5bc462';
     } else if (index === currentIndex) {
-      return '##5bc462';
+      return '#5bc462';
     } else {
       return grey[400];
     }
@@ -522,7 +522,7 @@ function App() {
                   <Chip
                     variant='contained'
                     color='success'
-                    sx={{ mt: 2, backgroundColor: '#3CFFA4', color: '#000' }}
+                    sx={{ mt: 2, backgroundColor: '#5bc462', color: '#fff' }}
                     label={project.status}
                   />
                 </Box>
