@@ -519,12 +519,6 @@ function App() {
                       Numéro du devis : {project.number}
                     </Typography>
                   </Box>
-                  <Chip
-                    variant='contained'
-                    color='success'
-                    sx={{ mt: 2, backgroundColor: '#5bc462', color: '#fff' }}
-                    label={project.status}
-                  />
                 </Box>
                 <Stepper
                   activeStep={steps.findIndex(
